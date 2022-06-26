@@ -27,3 +27,16 @@ export const getSinglePizzeria = (pizzeriaId) => async dispatch => {
     dispatch(addOnePizzeria(pizzeria))
   } else return false
 }
+
+export const createPizzeria = (payload) => async dispatch => {
+    const response = await fetch('/api/pizzeria', {
+      method: 'POST',
+      headers:{ 'Content-Type' : 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+      const pizzeria = await response.json()
+      dispatch(addOnePizzeria(pizzeria))
+      return pizzeria;
+    }
+  }
