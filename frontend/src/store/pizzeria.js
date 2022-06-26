@@ -40,3 +40,16 @@ export const createPizzeria = (payload) => async dispatch => {
       return pizzeria;
     }
   }
+
+export const editPizzeria = (pizzeriaId, payload) => async dispatch => {
+  const response = await fetch(`/api/pizzeria/${pizzeriaId}`,{
+    method: 'PUT',
+    headers: { 'Content-Type' : 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  if (response.ok) {
+    const pizzeria = await response.json()
+    dispatch(addOnePizzeria(pizzeria))
+    return pizzeria;
+  }
+}
