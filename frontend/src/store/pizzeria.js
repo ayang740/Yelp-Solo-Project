@@ -6,7 +6,24 @@ const load = list => ({
     list
   });
 
-const addOnePokemon = pokemon => ({
+const addOnePizzeria = pizzeria => ({
   type: ADD_ONE,
-  pokemon
+  pizzeria
 });
+
+export const getPizzerias = () => async dispatch => {
+    const response = await fetch(`/api/pokemon`);
+  
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(load(list));
+    }
+  };
+
+export const getSinglePizzeria = (pizzeriaId) => async dispatch => {
+  const response = await fetch(`/api/pizzeria/${pizzeriaId}`)
+  if (response.ok) {
+    const pizzeria = await response.json()
+    dispatch(addOnePizzeria(pizzeria))
+  } else return false
+}
