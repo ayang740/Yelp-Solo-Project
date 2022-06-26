@@ -53,3 +53,39 @@ export const editPizzeria = (pizzeriaId, payload) => async dispatch => {
     return pizzeria;
   }
 }
+
+const pizzeriaReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOAD:
+      const allPizzerias = {};
+      action.list.forEach(pizzeria => {
+        allPizzerias[pizzeria.id] = pizzeria;
+      });
+      return {
+        ...allPizzeria,
+        ...state,
+        list: sortList(action.list)
+      };
+    case ADD_ONE:
+      if (!state[action.pizzeria.id]) {
+        const newState = {
+          ...state,
+          [action.pizzeria.id]: action.pizzeria
+        };
+        const pizzeriaList = newState.list.map(id => newState[id]);
+        pizzeriaList.push(action.pizzeria);
+        newState.list = sortList(pizzeriaList);
+        return newState;
+      }
+      return {
+        ...state,
+        [action.pizzeria.id]: {
+          ...state[action.pizzeria.id],
+          ...action.pizzeria
+        }
+      };
+    
+  }
+}
+
+export default pizzeriaReducer;
