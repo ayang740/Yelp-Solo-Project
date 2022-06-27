@@ -14,11 +14,11 @@ module.exports = {
       },
       openingTime: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING(10)
       },
       closingTime: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING(10)
       },
       address: {
         allowNull: false,
