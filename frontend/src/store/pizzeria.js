@@ -1,9 +1,10 @@
 const LOAD = 'pizzeria/LOAD';
 const ADD_ONE = 'pizzeria/ADD_ONE';
+const DELETE = 'pizzeria/DELETE';
 
-const load = list => ({
+const load = pizzerias => ({
     type: LOAD,
-    list
+    pizzerias
   });
 
 const addOnePizzeria = pizzeria => ({
@@ -11,12 +12,17 @@ const addOnePizzeria = pizzeria => ({
   pizzeria
 });
 
+const deletePizzeria = pizzeriaId => ({
+  type: DELETE,
+  pizzeriaId
+})
+
 export const getPizzerias = () => async dispatch => {
-    const response = await fetch(`/api/pokemon`);
+    const response = await fetch(`/api/pizzeria`);
   
     if (response.ok) {
-      const list = await response.json();
-      dispatch(load(list));
+      const pizzerias = await response.json();
+      dispatch(load(pizzerias));
     }
   };
 
@@ -58,11 +64,11 @@ const pizzeriaReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD:
       const allPizzerias = {};
-      action.list.forEach(pizzeria => {
+      action.pizzerias.forEach(pizzeria => {
         allPizzerias[pizzeria.id] = pizzeria;
       });
       return {
-        ...allPizzeria,
+        ...allPizzerias,
         ...state,
         list: sortList(action.list)
       };
@@ -84,7 +90,10 @@ const pizzeriaReducer = (state = initialState, action) => {
           ...action.pizzeria
         }
       };
-    
+      case DELETE:
+        const deletedPizzeria = { ...state };
+        delete deletedPizzeria[action.pizzeriaId];
+        return deletedPizzeria;
   }
 }
 
