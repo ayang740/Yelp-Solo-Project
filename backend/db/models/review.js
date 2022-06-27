@@ -4,10 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     review: DataTypes.STRING,
     rating: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    shopId: DataTypes.INTEGER
+    pizzeriaId: DataTypes.INTEGER
   }, {});
   Review.associate = function(models) {
     // associations can be defined here
+    Review.belongsTo(models.User, { foreignKey: "userId" });
+    Review.belongsTo(models.Pizzeria, { foreignKey: "pizzeriaId" });
   };
   return Review;
 };
