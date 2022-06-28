@@ -5,7 +5,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import Pizzerias from "./components/PizzeriasPage";
+import PizzeriaList from "./components/PizzeriasPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route path="/pizzerias">
-            <Pizzerias />
+            <PizzeriaList />
           </Route>
         </Switch>
       )}
