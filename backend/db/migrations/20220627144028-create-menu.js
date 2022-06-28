@@ -16,10 +16,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      pizzeriaId: {
+      pizzaPlaceId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Pizzerias"}
+        references: { model: "PizzaPlaces"}
       },
       createdAt: {
         allowNull: false,

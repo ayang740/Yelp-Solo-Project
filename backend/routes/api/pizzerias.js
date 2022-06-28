@@ -1,7 +1,7 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 
-const { Pizzeria } = require("../../db/models/pizzeria");
+const { PizzaPlace } = require("../../db/models");
 
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.get(
     "/",
     asyncHandler(async (req, res) => {
-      const pizzerias = await Pizzeria.findAll();
+      const pizzerias = await PizzaPlace.findAll();
       return res.json(pizzerias);
     })
   );
