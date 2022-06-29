@@ -17,16 +17,9 @@ router.get(
 
 //post new pizza place
 router.post(
-  "/",
+  "/add",
   asyncHandler(async (req, res) => {
-    const { name, openingTime, closingTime, address, userId } = req.body;
-    const pizzeria = await PizzaPlace.create({
-      name,
-      openingTime,
-      closingTime,
-      address,
-      userId
-    });
+    const pizzeria = await PizzaPlace.create(req.body);
 
     return res.json({
       pizzeria,

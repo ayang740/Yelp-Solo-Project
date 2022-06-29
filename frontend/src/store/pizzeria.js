@@ -1,8 +1,11 @@
 import { csrfFetch } from "./csrf";
 
-const LOAD = 'pizzeria/LOAD';
-const ADD_ONE = 'pizzeria/ADD_ONE';
-// const DELETE = 'pizzeria/DELETE';
+//types
+
+const LOAD = 'pizzeria/loadPizzerias';
+const CREATE = 'pizzeria/createPizzeria';
+// const UPDATE = 'pizzeria/updatePizzeria'
+// const DELETE = 'pizzeria/deletePizzeria';
 
 const load = pizzerias => ({
     type: LOAD,
@@ -10,7 +13,7 @@ const load = pizzerias => ({
   });
 
 const addOnePizzeria = pizzeria => ({
-  type: ADD_ONE,
+  type: CREATE,
   pizzeria
 });
 
@@ -66,13 +69,11 @@ const pizzeriaReducer = (state = {}, action) => {
   let newState = { ...state };
   switch (action.type) {
     case LOAD:
-      newState = { ...state };
       action.pizzerias.forEach((pizzeria) => {
         newState[pizzeria.id] = pizzeria;
       });
       return newState;
-    case ADD_ONE:
-      newState = { ...state };
+    case CREATE:
       newState[action.pizzeria.id] = action.pizzeria
       return newState;
     // case DELETE:
