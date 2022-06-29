@@ -28,9 +28,10 @@ function AddPizzeria() {
         address,
         userId
       };
-  
+      
+      
       const newPizzeria = await dispatch(createPizzeria(payload));
-      history.push(`/pizzeria/${newPizzeria.id}`);
+      history.push(`/pizzerias/${newPizzeria.id}`);
       return newPizzeria;
     };
   
