@@ -3,9 +3,10 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
+import PizzeriaList from "./components/PizzeriasPage";
+import AddPizzeria from "./components/AddPizzeria";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import PizzeriaList from "./components/PizzeriasPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,8 +26,11 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/pizzerias">
+          <Route exact path="/pizzerias">
             <PizzeriaList />
+          </Route>
+          <Route exact path="/pizzerias/add">
+            <AddPizzeria />
           </Route>
         </Switch>
       )}
