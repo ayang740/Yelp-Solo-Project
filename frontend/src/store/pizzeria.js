@@ -7,7 +7,7 @@ const CREATE = 'pizzeria/createPizzeria';
 const UPDATE = 'pizzeria/updatePizzeria'
 const DELETE = 'pizzeria/deletePizzeria';
 
-const load = pizzerias => ({
+const loadPizzeria = pizzerias => ({
     type: LOAD,
     pizzerias
   });
@@ -32,7 +32,7 @@ export const getPizzerias = () => async dispatch => {
     const response = await csrfFetch(`/api/pizzerias`);
     if (response.ok) {
       const pizzerias = await response.json();
-      dispatch(load(pizzerias));
+      dispatch(loadPizzeria(pizzerias));
       return response;
     } else return response.json()
   };
@@ -61,18 +61,32 @@ export const createPizzeria = (payload) => async dispatch => {
     }
   }
 
-// export const editPizzeria = (pizzeriaId, payload) => async dispatch => {
-//   const response = await fetch(`/api/pizzeria/${pizzeriaId}`,{
-//     method: 'PUT',
-//     headers: { 'Content-Type' : 'application/json' },
-//     body: JSON.stringify(payload)
-//   })
-//   if (response.ok) {
-//     const pizzeria = await response.json()
-//     dispatch(addOnePizzeria(pizzeria))
-//     return pizzeria;
-//   }
-// }
+//edit pizzeria
+export const editPizzeria = (pizzeria) => async dispatch => {
+  const response = await csrfFetch(`/api/pizzerias/${pizzeria.id}`,{
+    method: 'PUT',
+    headers: { 'Content-Type' : 'application/json' },
+    body: JSON.stringify(pizzeria)
+  })
+  if (response.ok) {
+    const pizzeria = await response.json()
+    dispatch(updatePizzeria(pizzeria))
+    return pizzeria;
+  }
+}
+
+//delete pizzeria
+export const removePizzeria = (pizzeriaId) => async dispatch =>{
+  const response = await csrfFetch(`/api/pizzerias/${pizzeriaId}`, {
+      method: 'DELETE',
+  });
+
+  if (response.ok) {
+      const pizzeriaId = await response.json()
+      dispatch(deletePizzeria(pizzeriaId))
+      return pizzeriaId
+  }
+}
 
 const pizzeriaReducer = (state = {}, action) => {
   let newState = { ...state };

@@ -32,6 +32,9 @@ function App() {
           <Route exact path="/pizzerias/add">
             <AddPizzeria />
           </Route>
+          {/* <Route exact path="/pizzerias/pizzeriaId">
+            <SinglePizzeriaPage />
+          </Route> */}
         </Switch>
       )}
     </>

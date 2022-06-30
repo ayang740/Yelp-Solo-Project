@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPizzerias } from '../../store/pizzeria';
 import { NavLink } from 'react-router-dom';
@@ -6,23 +6,21 @@ import { NavLink } from 'react-router-dom';
 const PizzeriaList = () => {
     const dispatch = useDispatch();
     
-    const selectorPizzerias = useSelector(state => {
-        return state.pizzerias;
-    });
-
-    const [pizzerias, setPizzerias] = useState([])
-
     useEffect(() => {
         dispatch(getPizzerias())
     }, [dispatch])
-    
-    useEffect(() => {
-        if (selectorPizzerias) {
-            setPizzerias(Object.values(selectorPizzerias))
-        }
-        
-    })
-    console.log(pizzerias)
+
+    const pizzerias = useSelector((state) => {
+        return Object.values(state.pizzeria)
+    });
+
+
+
+    if (!pizzerias) {
+        return null;
+    }
+
+
     return (    
         <>
             <h1> Pizzerias </h1>
