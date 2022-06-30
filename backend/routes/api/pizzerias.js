@@ -59,7 +59,6 @@ router.put(
 router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
-    console.log('hello')
     const id = req.params.id;
     const deletePizzeria = await PizzaPlace.findByPk(id);
     await deletePizzeria.destroy();

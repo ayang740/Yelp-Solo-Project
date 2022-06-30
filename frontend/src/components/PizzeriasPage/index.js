@@ -29,7 +29,6 @@ const PizzeriaList = () => {
                         <NavLink key={pizzeria.name} to={`/pizzerias/${pizzeria.id}`}>
                             <div>
                                 <div>{pizzeria.name}</div>
-                                <div>rating</div>
                             </div>
                         </NavLink>
                     )
