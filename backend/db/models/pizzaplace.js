@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER
   }, {});
   PizzaPlace.associate = function(models) {
-    PizzaPlace.hasMany(models.Review, { foreignKey: "pizzaPlaceId" });
+    PizzaPlace.hasMany(models.Review, { foreignKey: "pizzaPlaceId", onDelete: "reviewId", hooks: true });
     PizzaPlace.belongsTo(models.User, { foreignKey: "userId" });
   };
   return PizzaPlace;

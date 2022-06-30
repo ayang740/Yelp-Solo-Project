@@ -31,7 +31,7 @@ function AddPizzeria() {
       
       
       const newPizzeria = await dispatch(createPizzeria(payload));
-      history.push(`/pizzerias/${newPizzeria.id}`);
+      history.push(`/pizzerias`);
       return newPizzeria;
     };
   

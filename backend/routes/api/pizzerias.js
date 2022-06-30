@@ -57,10 +57,11 @@ router.put(
 
 //delete pizza place
 router.delete(
-  "/:pizzeriaId",
+  "/:id",
   asyncHandler(async (req, res) => {
+    console.log('hello')
     const id = req.params.id;
-    const deletePizzeria = await Pizzeria.findByPk(id);
+    const deletePizzeria = await PizzaPlace.findByPk(id);
     await deletePizzeria.destroy();
     return res.json({ id });
   })

@@ -38,14 +38,14 @@ export const getPizzerias = () => async dispatch => {
   };
 
   //get one pizzeria
-export const getSinglePizzeria = (pizzeriaId) => async dispatch => {
-  const response = await fetch(`/api/pizzerias/${pizzeriaId}`)
-  if (response.ok) {
-    const pizzeria = await response.json()
-    dispatch(addOnePizzeria(pizzeria));
-    return response;
-  } else return response.json();
-}
+// export const getSinglePizzeria = (pizzeriaId) => async dispatch => {
+//   const response = await fetch(`/api/pizzerias/${pizzeriaId}`)
+//   if (response.ok) {
+//     const pizzeria = await response.json()
+//     dispatch(addOnePizzeria(pizzeria));
+//     return response;
+//   } else return response.json();
+// }
 
 //create pizzeria
 export const createPizzeria = (payload) => async dispatch => {
@@ -77,11 +77,12 @@ export const editPizzeria = (pizzeria) => async dispatch => {
 
 //delete pizzeria
 export const removePizzeria = (pizzeriaId) => async dispatch =>{
+  console.log("hello")
   const response = await csrfFetch(`/api/pizzerias/${pizzeriaId}`, {
       method: 'DELETE',
   });
-
   if (response.ok) {
+    console.log("response")
       const pizzeriaId = await response.json()
       dispatch(deletePizzeria(pizzeriaId))
       return pizzeriaId
@@ -103,8 +104,10 @@ const pizzeriaReducer = (state = {}, action) => {
       newState[action.pizzeria.id] = action.pizzeria
       return newState
     case DELETE:
-        delete newState[action.pizzeriaId];
-        return newState;
+      console.log("reducer")
+      const deletedState = { ...state }
+      delete deletedState[action.pizzeriaId];
+      return deletedState;
     default:
       return state
   }
