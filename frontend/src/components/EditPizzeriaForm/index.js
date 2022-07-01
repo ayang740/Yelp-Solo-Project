@@ -5,7 +5,7 @@ import { editPizzeria, getPizzerias } from "../../store/pizzeria";
 
 const EditPizzeriaForm = ({ pizzeria, hideForm }) => {
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) => state.session.user);
+
 
     const [name, setName] = useState(pizzeria.name);
     const [openingTime, setOpeningTime] = useState(pizzeria.openingTime);

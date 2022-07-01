@@ -94,7 +94,6 @@ const pizzeriaReducer = (state = {}, action) => {
       return newState
     case DELETE:
       const deletedState = { ...state }
-      console.log("delete", action);
       delete deletedState[action.pizzeriaId];
       return deletedState;
     default:
