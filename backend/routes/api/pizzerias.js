@@ -15,15 +15,6 @@ router.get(
     })
   );
 
-//get one pizza place
-router.get(
-  "/:pizzeriaId",
-  asyncHandler(async (req, res) => {
-    const pizzeria = await PizzaPlace.findByPk(req.params.id);
-    return res.json(pizzeria);
-  })
-);
-
 //post new pizza place
 router.post(
   "/add",
