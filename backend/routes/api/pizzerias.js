@@ -38,7 +38,7 @@ router.post(
 
 //edit pizza place.
 router.put(
-  "/:pizzeriaId",
+  "/:id",
   asyncHandler(async (req, res) => {
     const { name, openingTime, closingTime, address } =
       req.body;

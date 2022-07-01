@@ -66,7 +66,7 @@ function AddPizzeria() {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
-          ></input>
+          />
           <button type="submit">Create New Pizzeria</button>
         </form>
       </div>

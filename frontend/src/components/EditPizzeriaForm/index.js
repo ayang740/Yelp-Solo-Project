@@ -1,19 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { editPizzeria } from "../../store/businesses";
-import { useParams } from "react-router-dom";
+import { editPizzeria, getPizzerias } from "../../store/pizzeria";
 
-const editPizzeriaForm = ({ pizzeria }) => {
-    const sessionUser = useSelector((state) => state.session.user);
+
+const EditPizzeriaForm = ({ pizzeria, hideForm }) => {
     const dispatch = useDispatch();
-    const { pizzeriaId } = useParams();
-    const history = useHistory();
+    const sessionUser = useSelector((state) => state.session.user);
 
     const [name, setName] = useState(pizzeria.name);
     const [openingTime, setOpeningTime] = useState(pizzeria.openingTime);
     const [closingTime, setClosingTime] = useState(pizzeria.closingTime);
-    const [address, setAddress] = useState(pizzeria.address)
+    const [address, setAddress] = useState(pizzeria.address);
 
-    return null
+    const updatedName = (e) => setName(e.target.value)
+    const updatedOpeningTime = (e) => setOpeningTime(e.target.value)
+    const updatedClosingTime = (e) => setClosingTime(e.target.value)
+    const updatedAddress = (e) => setAddress(e.target.value)
+
+    useEffect(() => {
+        dispatch(getPizzerias())
+    },[dispatch])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const payload = {
+          ...pizzeria,
+          name,
+          openingTime,
+          closingTime,
+          address
+        };
+        
+        
+        const updatedPizzeria = await dispatch(editPizzeria(payload));
+        if (updatedPizzeria) {
+            hideForm();
+        }
+      };
+
+    const handleCancelClick = (e) => {
+        e.preventDefault();
+        hideForm();
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={updatedName}
+                    required
+                />
+                <input
+                    type="text"
+                    value={openingTime}
+                    onChange={updatedOpeningTime}
+                    required
+                />
+                <input
+                    type="text"
+                    value={closingTime}
+                    onChange={updatedClosingTime}
+                    required
+                />
+                <input
+                    type="text"
+                    value={address}
+                    onChange={updatedAddress}
+                    required
+                />
+                <button type="submit">Update Pizzeria</button>
+                <button type="button" onClick={handleCancelClick}>Cancel</button>
+            </form>
+        </>
+    )
 }
+
+export default EditPizzeriaForm
