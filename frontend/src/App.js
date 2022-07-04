@@ -6,6 +6,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import PizzeriaList from "./components/PizzeriasPage";
 import AddPizzeria from "./components/AddPizzeria";
 import SinglePizzeriaPage from "./components/SinglePizzeriaPage";
+import Reviews from "./components/Reviews"
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -35,6 +36,7 @@ function App() {
           </Route>
           <Route exact path="/pizzerias/:pizzeriaId">
             <SinglePizzeriaPage />
+            <Reviews />
           </Route>
         </Switch>
       )}

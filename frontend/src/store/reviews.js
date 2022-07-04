@@ -28,14 +28,15 @@ export const getReviews = (pizzeriaId) => async dispatch => {
       return response;
     } else return response.json()
   };
-
-//create review
-export const createPizzeria = (payload) => async dispatch => {
+  
+  //create review
+  export const createReview = (payload) => async dispatch => {
     const response = await csrfFetch('/api/reviews/add', {
       method: 'POST',
       headers:{ 'Content-Type' : 'application/json' },
       body: JSON.stringify(payload)
     })
+    console.log(response)
     if (response.ok) {
       const review = await response.json()
       dispatch(addReview(review))
@@ -56,16 +57,19 @@ export const removeReview = (reviewId) => async dispatch =>{
   }
 
 const reviewReducer = (state = {}, action) => {
-    let newState = { ...state }
     switch (action.type) {
         case LOAD_REVIEW:
-          ction.review.forEach((review) => {
-            newState[review.id] = review;
+          const loadState = { ...state }
+          console.log("STATE", state, "ACTION", action);
+          action.reviews.forEach((review) => {
+            loadState[review.id] = review;
           });
-          return newState;
+          return loadState;
         case CREATE_REVIEW:
-          newState[action.review.id] = action.review
-          return newState;
+          const createState = { ...state }
+          console.log("STATE", state, "ACTION", action);
+          createState[action.review.id] = action.review
+          return createState;
         case DELETE_REVIEW:
           const deletedState = { ...state }
           delete deletedState[action.reviewId];

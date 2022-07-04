@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { removePizzeria, getPizzerias } from "../../store/pizzeria"
 import EditPizzeriaForm from '../EditPizzeriaForm';
+import AddReview from '../AddReview'
 
 const SinglePizzeriaPage = () => {
     const dispatch = useDispatch()
@@ -13,6 +14,7 @@ const SinglePizzeriaPage = () => {
     const pizzeria = useSelector((state) => state.pizzeria[pizzeriaId]);
 
     const [showEditPizzeriaForm, setShowEditPizzeriaForm] = useState(false)
+    const [showReviewForm, setShowReviewForm] = useState(false)
 
     useEffect(() => {
         dispatch(getPizzerias())
@@ -51,6 +53,8 @@ const SinglePizzeriaPage = () => {
                 )
             }
             <div>{content}</div>
+            <button onClick={()=> setShowReviewForm(true)} className="add review"> Add a Review </button>
+                {showReviewForm && (<AddReview pizzeria={pizzeria} hideForm={() => setShowReviewForm(false)}/>)}
         </>
     )
 }
