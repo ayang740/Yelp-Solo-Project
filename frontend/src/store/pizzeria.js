@@ -1,41 +1,46 @@
-const LOAD = 'pizzeria/LOAD';
-const ADD_ONE = 'pizzeria/ADD_ONE';
-const DELETE = 'pizzeria/DELETE';
+import { csrfFetch } from "./csrf";
 
-const load = pizzerias => ({
+//types
+
+const LOAD = 'pizzeria/loadPizzerias';
+const CREATE = 'pizzeria/createPizzeria';
+const UPDATE = 'pizzeria/updatePizzeria'
+const DELETE = 'pizzeria/deletePizzeria';
+
+const loadPizzeria = pizzerias => ({
     type: LOAD,
     pizzerias
   });
 
 const addOnePizzeria = pizzeria => ({
-  type: ADD_ONE,
+  type: CREATE,
   pizzeria
 });
+
+const updatePizzeria = pizzeria => ({
+  type: UPDATE,
+  pizzeria
+})
 
 const deletePizzeria = pizzeriaId => ({
   type: DELETE,
   pizzeriaId
 })
 
+//get all pizzerias
 export const getPizzerias = () => async dispatch => {
-    const response = await fetch(`/api/pizzeria`);
-  
+    const response = await csrfFetch(`/api/pizzerias`);
     if (response.ok) {
       const pizzerias = await response.json();
-      dispatch(load(pizzerias));
-    }
+      dispatch(loadPizzeria(pizzerias));
+      return response;
+    } else return response.json()
   };
 
-export const getSinglePizzeria = (pizzeriaId) => async dispatch => {
-  const response = await fetch(`/api/pizzeria/${pizzeriaId}`)
-  if (response.ok) {
-    const pizzeria = await response.json()
-    dispatch(addOnePizzeria(pizzeria))
-  } else return false
-}
 
+//create pizzeria
 export const createPizzeria = (payload) => async dispatch => {
-    const response = await fetch('/api/pizzeria', {
+    const response = await csrfFetch('/api/pizzerias/add', {
       method: 'POST',
       headers:{ 'Content-Type' : 'application/json' },
       body: JSON.stringify(payload)
@@ -47,53 +52,52 @@ export const createPizzeria = (payload) => async dispatch => {
     }
   }
 
-export const editPizzeria = (pizzeriaId, payload) => async dispatch => {
-  const response = await fetch(`/api/pizzeria/${pizzeriaId}`,{
+//edit pizzeria
+export const editPizzeria = (pizzeria) => async dispatch => {
+  const response = await csrfFetch(`/api/pizzerias/${pizzeria.id}`,{
     method: 'PUT',
     headers: { 'Content-Type' : 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(pizzeria)
   })
   if (response.ok) {
     const pizzeria = await response.json()
-    dispatch(addOnePizzeria(pizzeria))
+    dispatch(updatePizzeria(pizzeria))
     return pizzeria;
   }
 }
 
-const pizzeriaReducer = (state = initialState, action) => {
+//delete pizzeria
+export const removePizzeria = (pizzeriaId) => async dispatch =>{
+  const response = await csrfFetch(`/api/pizzerias/${pizzeriaId}`, {
+      method: 'DELETE',
+  });
+  if (response.ok) {
+      const pizzeriaId = await response.json()
+      dispatch(deletePizzeria(pizzeriaId))
+      return pizzeriaId
+  }
+}
+
+const pizzeriaReducer = (state = {}, action) => {
+  let newState = { ...state };
   switch (action.type) {
     case LOAD:
-      const allPizzerias = {};
-      action.pizzerias.forEach(pizzeria => {
-        allPizzerias[pizzeria.id] = pizzeria;
+      action.pizzerias.forEach((pizzeria) => {
+        newState[pizzeria.id] = pizzeria;
       });
-      return {
-        ...allPizzerias,
-        ...state,
-        list: sortList(action.list)
-      };
-    case ADD_ONE:
-      if (!state[action.pizzeria.id]) {
-        const newState = {
-          ...state,
-          [action.pizzeria.id]: action.pizzeria
-        };
-        const pizzeriaList = newState.list.map(id => newState[id]);
-        pizzeriaList.push(action.pizzeria);
-        newState.list = sortList(pizzeriaList);
-        return newState;
-      }
-      return {
-        ...state,
-        [action.pizzeria.id]: {
-          ...state[action.pizzeria.id],
-          ...action.pizzeria
-        }
-      };
-      case DELETE:
-        const deletedPizzeria = { ...state };
-        delete deletedPizzeria[action.pizzeriaId];
-        return deletedPizzeria;
+      return newState;
+    case CREATE:
+      newState[action.pizzeria.id] = action.pizzeria
+      return newState;
+    case UPDATE:
+      newState[action.pizzeria.id] = action.pizzeria
+      return newState
+    case DELETE:
+      const deletedState = { ...state }
+      delete deletedState[action.pizzeriaId];
+      return deletedState;
+    default:
+      return state
   }
 }
 
