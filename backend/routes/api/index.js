@@ -10,7 +10,7 @@ router.use('/users', usersRouter);
 
 router.use('/pizzerias', pizzeriasRouter)
 
-router.use('reviews', reviewsRouter)
+router.use('/reviews', reviewsRouter)
 
 
 

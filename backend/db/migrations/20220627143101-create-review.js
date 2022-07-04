@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      review: {
+      reviewText: {
         allowNull: false,
         type: Sequelize.TEXT
       },

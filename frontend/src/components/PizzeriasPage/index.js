@@ -15,7 +15,6 @@ const PizzeriaList = () => {
     });
 
 
-
     if (!pizzerias) {
         return null;
     }
